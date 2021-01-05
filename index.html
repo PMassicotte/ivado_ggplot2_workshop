@@ -66,15 +66,7 @@ class: center, middle, inverse, title-slide
 
 ---
 
-class: inverse, center, middle
-
 # Outline
-
----
-
-# Outline
-
-**Introduction**
 
 - What is data visualization?
 
@@ -88,17 +80,9 @@ class: inverse, center, middle
     * Axes and titles
     * Faceting
 
----
-
-# Outline
-
-**Advanced**
-
 - Overview of the `theme()` function
 
 - Combining plots with `patchwork`
-
-- Using `ggtext`
 
 ---
 
@@ -960,7 +944,7 @@ ggplot(
 
 count: false
  
-# Controling scale labels
+# Controling axis labels
 .panel1-axes_and_titles2-auto[
 
 ```r
@@ -978,7 +962,7 @@ count: false
 ---
 count: false
  
-# Controling scale labels
+# Controling axis labels
 .panel1-axes_and_titles2-auto[
 
 ```r
@@ -997,7 +981,7 @@ ggplot(
 ---
 count: false
  
-# Controling scale labels
+# Controling axis labels
 .panel1-axes_and_titles2-auto[
 
 ```r
@@ -1056,9 +1040,16 @@ class: inverse, center, middle
 
 # Faceting
 
-Faceting is a tool of the `ggplot2` library that allows displaying additional categorical variables in facets.
+Faceting is a technique that allows displaying additional categorical variables in facets. Within `ggplot2`, there are two types of faceting: `facet_grid()` and `facet_wrap()`.
 
-There are two types of faceting: `facet_grid()` and `facet_wrap()`.
+&lt;center&gt;
+&lt;figure&gt;
+  &lt;img src="img/makeovermonday_2020w11.png" width="500"&gt;
+  &lt;figcaption&gt;
+    Small multiple graphs can be useful to visualize data divided into smaller subsets. 
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
 
 ---
 
