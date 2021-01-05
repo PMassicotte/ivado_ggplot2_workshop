@@ -1,0 +1,870 @@
+---
+title: "Introduction to ggplot2"
+subtitle: "Workshop #6: data visualization in R"
+author: "Philippe Massicotte"
+date: "2021-02-03"
+output:
+  xaringan::moon_reader:
+    yolo: false
+    lib_dir: libs
+    css: [default, default, robot-fonts, styles.css]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      highlightSpans: true
+      countIncrementalSlides: false
+      # beforeInit: "https://platform.twitter.com/widgets.js"
+      ratio: '16:9'
+---
+
+<!-- https://evamaerey.github.io/flipbooks/flipbook_recipes#49 -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  dev = "svg",
+  message = FALSE,
+  cache = TRUE,
+  fig.align = "center",
+  fig.height = 4
+)
+options(htmltools.dir.version = FALSE)
+# names(xaringan:::list_css())
+
+library(tidyverse)
+library(ggpmthemes)
+library(patchwork)
+library(flipbookr)
+
+theme_set(theme_poppins())
+
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+```
+
+```{r xaringanExtra, echo=FALSE}
+xaringanExtra::use_xaringan_extra(
+  c(
+    "tile_view",
+    "animate_css",
+    "tachyons"
+  )
+)
+# xaringanExtra::use_clipboard()
+# xaringanExtra::use_share_again()
+```
+
+```{r xaringanExtra-clipboard, echo=FALSE}
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "Copy</i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+
+<br>
+
+<center><img src="img/myname.png" alt="drawing" width="400"/></center>
+
+<p align="left">
+
+<b>Research assistant at Takuvik (remote sensing, modeling, data science)</b><br>
+
+- Using R more than 10 years<br>
+- Author of 3 packages on CRAN<br>
+- R blog: www.pmassicotte.com<br>
+
+<br>
+
+<i class="fab fa-github"></i> https://github.com/PMassicotte <br>
+<i class="far fa-envelope"></i> philippe.massicotte@takuvik.ulaval.ca <br>
+<i class="fab fa-twitter"></i> @philmassicotte
+
+</p>
+
+---
+
+class: inverse, center, middle
+
+# Outline
+
+---
+
+# Outline
+
+**Introduction**
+
+- What is data visualization?
+
+- `ggplot2` basic plots
+    * Histograms and bar plots
+    * Points and lines plots
+    * Boxplots
+
+- `ggplot2` aesthetics and appearance
+    * Color, size
+    * Axes and titles
+    * Faceting
+
+---
+
+# Outline
+
+**Advanced**
+
+- Overview of the `theme()` function
+
+- Combining plots with `patchwork`
+
+- Using `ggtext`
+
+---
+
+# Data visualization
+
+<center>
+<figure>
+  <img src="https://blog.rstudio.com/2019/11/18/artist-in-residence/horst-eco-r4ds.png" width="800">
+<figcaption>Artwork by <a href="https://twitter.com/allison_horst?s=20">@allison_horst</a></figcaption>
+</figure>
+</center>
+
+---
+
+# Data visualization
+
+- Important aspect of data sciences -> Communicate information clearly and efficiently to the community.
+
+- Powerful tool to discovers patterns in the data.
+
+- It makes complex data more accessible -> **reveal data**.
+
+- Bad graphics can be a reason for paper rejection!
+
+- A picture is worth a thousand words.
+    * Always, always, always plot your data!
+    * When possible, replace tables with figures that are more compelling.
+
+---
+
+# Different type of visualizations
+
+There are many types of visualization to chose from to present data. The decision depends on the data itself and how you want to present it to your audience.
+
+<center>
+    <img src="https://scx2.b-cdn.net/gfx/news/hires/2013/whatmakesada.png" alt="drawing" height="400"/>
+    <figcaption>
+    <a href="https://phys.org/news/2013-10-visualization.html">What makes a data visualization memorable?</a>
+    </figcaption>
+</center>
+
+---
+
+class: inverse, center, middle
+
+<center>
+<figure>
+  <img src="https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/ggplot2_masterpiece.png?raw=true" width="700">
+<figcaption>Artwork by <a href="https://twitter.com/allison_horst?s=20">@allison_horst</a></figcaption>
+</figure>
+</center>
+
+---
+
+# ggplot2
+
+> ggplot2 is a system for declaratively creating graphics, based on [The Grammar of Graphics](https://amzn.to/2ef1eWp).
+
+`ggplot2` is not part of base R, so it needs to be installed.
+
+```{r, eval = FALSE}
+install.packages("ggplot2")
+```
+
+After the installation, you will have to load it.
+
+```{r, eval = FALSE}
+library(ggplot2)
+```
+
+---
+
+# ggplot2
+
+`ggplot2` is a very powerful tool. The learning curve can be difficult, but the time investment will eventually pay off.
+
+<center>
+    <img src="img/tidytuesday_2020_week04.png" alt="drawing" width="900"/>
+</center>
+
+---
+
+# TidyTuesday
+
+TidyTuesday is a weekly challenge where people use (mostly) `ggplot2` to explore a new dataset.
+
+> A weekly data project aimed at the R ecosystem. As this project was borne out of the R4DS Online Learning Community and the R for Data Science textbook, an emphasis was placed on understanding how to summarize and arrange data to make meaningful charts with `ggplot2`, `tidyr`, `dplyr`, and other tools in the `tidyverse` ecosystem.
+
+<center>
+    <img src="https://github.com/rfordatascience/tidytuesday/blob/master/static/tt_logo.png?raw=true" alt="drawing" width="500"/>
+    <figcaption>
+    <a href="https://twitter.com/search?q=%23TidyTuesday&src=hashtag_click">#TidyTuesday on <i class="fab fa-twitter"></i></a>
+    </figcaption>
+</center>
+
+---
+
+# TidyTuesday
+
+As already said, `ggplot2` can be intimidating at first. However, with some practice, you will be able to make stunning graphics.
+
+<div class="row">
+    <div class="column">
+        <img src="https://christianburkhart.de/static/30599239f2edece767ae2434a6665c60/47218/tidytuesday_birds.png"
+            alt="Snow" style="width:100%">
+        <figcaption>
+            Graphic by <a href=https://twitter.com/ChBurkhart">@ChBurkhart</a>
+        </figcaption>
+    </div>
+    <div class="column">
+        <img src="https://github.com/jkaupp/tidytuesdays/blob/437b47ad14bd3d6d66dca41e0a4a84c9d96716fb/2020/week44/tw44_plot.png?raw=true"
+            alt="Forest" style="width:100%">
+        <figcaption>
+            Graphic by <a href=https://twitter.com/jakekaupp">@jakekaupp</a>
+        </figcaption>
+    </div>
+    <div class="column">
+        <img src="https://github.com/gkaramanis/aRtist/blob/main/genuary/2021/2021-3/2021-3.png?raw=true" alt="Forest"
+            style="width:80%">
+        <figcaption>
+            Graphic by <a href=https://twitter.com/geokaramanis?lang=en">@geokaramanis</a>
+        </figcaption>
+    </div>
+</div>
+
+Most people participating to the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!
+
+---
+
+class: inverse, center, middle
+
+# Let's start with ggplot2!
+
+---
+
+# The data
+
+For the following examples, we are going to use the data from the `mpg` dataset. This dataset contains a subset of the [fuel economy data](http://fueleconomy.gov) from the EPA. 
+
+```{r, echo = FALSE}
+mpg %>%
+  head(50) %>% 
+  rmarkdown::paged_table()
+```
+
+---
+
+# The data
+
+```{r}
+str(mpg)
+```
+
+---
+
+# Understanding the ggplot2 syntax
+
+<center><img src="img/ggplot2_structure.svg" alt="drawing" width="800"/></center>
+
+---
+
+# The geoms 
+
+`geoms` is the abreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with `geom_`.
+
+```{r, echo = FALSE}
+ls(pattern = "^geom_", env = as.environment("package:ggplot2"))
+```
+
+---
+
+class: inverse, center, middle
+
+# One variable graphics
+
+---
+
+# One variable graphics
+
+There are two main types of one variable graphics:
+
+| **Graphic type** | **Geom**           | **Description**                          |
+|------------------|--------------------|------------------------------------------|
+| Histogram        | `geom_histogram()` | Produces histograms for continuous data. |
+| Barplot          | `geom_bar()`       | Produces histograms for discrete data.   |
+
+
+```{r histogram1, include = FALSE}
+ggplot(
+  data = mpg,
+  mapping = aes(x = cty)
+) +
+  geom_histogram()
+```
+
+---
+
+`r chunk_reveal(chunk_name = "histogram1", title = "# Histogram")`
+
+---
+
+```{r barplot1, include=FALSE}
+ggplot(
+  data = mpg,
+  mapping = aes(x = class)
+) +
+  geom_bar()
+```
+
+`r chunk_reveal(chunk_name = "barplot1", title = "# Barplot")`
+
+---
+
+class: inverse, center, middle
+
+# Two variables graphics
+
+---
+
+# Two variables graphics
+
+There are plenty of 
+
+| **Graphic type** | **Geom**         | **Description**                            |
+|------------------|------------------|--------------------------------------------|
+| Scatter plot     | `geom_point()`   | Produces scatter plot between `x` and `y`. |
+| Line plot        | `geom_line()`    | Produces line plot between `x` and `y`.    |
+| Boxplot          | `geom_boxplot()` | Boxplot between `x` and `y`.               |
+
+---
+
+```{r scatterplot1, include = FALSE}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point()
+```
+
+`r chunk_reveal(chunk_name = "scatterplot1", title = "# Scatter plot")`
+
+---
+
+```{r lineplot1, include = FALSE}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_line()
+```
+
+`r chunk_reveal(chunk_name = "lineplot1", title = "# Line plot")`
+
+---
+
+# Boxplot
+
+> In descriptive statistics, a box plot or boxplot is a convenient way of graphically depicting groups of numerical data through their quartiles (Wikipedia).
+
+To make a boxplot, we need to have a **discrete/categorical** variable on `x` and a **continuous** variable on `y`.
+
+---
+
+```{r boxplot1, include = FALSE}
+ggplot(
+  data = mpg,
+  mapping = aes(x = class, y = cty)
+) +
+  geom_boxplot()
+```
+
+`r chunk_reveal(chunk_name = "boxplot1", title = "# Boxplot")`
+
+---
+
+class: inverse, center, middle
+
+# Geom aesthetics
+
+---
+
+# Geom aesthetics
+
+Aesthetics such as *color*, *shape*, *size* of the displayed geoms can be controlled inside the `geom_()` functions. 
+
+For example, we can change the *color* and the *size* of the point in the `geom_point()` function.
+
+```{r eval = FALSE}
+geom_point(color = "red", size = 10)
+```
+
+```{r, echo = FALSE, fig.height = 3.5, fig.width=6}
+mpg %>%
+  ggplot(aes(x = displ, y = cty)) +
+  geom_point(color = "red", size = 10)
+```
+
+---
+
+# Working with colors
+
+If we want to set a specific color, we have to set it outside the aesthetic: `geom_point(color = "orange")`.
+
+```{r, fig.height = 3.5}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(color = "orange") #<<
+```
+
+---
+
+# Working with colors
+
+If we want to set a color based on a variable, we have to use the aesthetic: `aes(colour = variable)`.
+
+```{r, fig.height = 3.5}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(color = class)) #<<
+```
+
+---
+
+# Working with size
+
+In the same manner, the size of the dots can be based on a particular variable.
+
+```{r, fig.height = 4}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(size = cyl)) #<<
+```
+
+---
+
+# Setting colors manually
+
+By default, `ggplot2` will use a default color palette.
+
+```{r, fig.height = 3.5}
+p <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(color = drv))
+
+p
+```
+
+---
+
+```{r manual_colors1, include = FALSE}
+p +
+  scale_color_manual(
+    breaks = c("4", "f", "r"),
+    values = c(
+      "orange",
+      "#CB2955",
+      "blue"
+    ),
+    labels = c(
+      "Front wheel drive",
+      "Rear wheel drive",
+      "4wd"
+    )
+  )
+```
+
+`r chunk_reveal(chunk_name = "manual_colors1", title = "# Setting colors manually \n We can also create our own palette of colors using *scale_color_manual()*.")`
+
+---
+
+class: inverse, center, middle
+
+# Axes and titles
+
+---
+
+# Axes and titles
+
+There are many ways to change the titles of the graphic and the axes. Here we are going to use the `labs()` function. 
+
+These are the main parameters:
+
+- `title`: Main title of the graph
+
+- `x`, `y`: Titles for the axes
+
+- `subtitle`: Subtitle title of the graph
+
+- `caption`: Caption of the graph
+
+---
+
+```{r, axes_and_titles1, include = FALSE}
+ggplot(
+  mpg,
+  aes(x = displ, y = cty)
+) +
+  geom_point() +
+  labs(
+    title = "Car fuel economy",
+    subtitle = "Data from 1999 to 2008 for 38 popular models of cars",
+    caption = "Data from: https://fueleconomy.gov/",
+    x = "Engine displacement (L)",
+    y = "City miles per gallon"
+  )
+```
+
+`r chunk_reveal(chunk_name = "axes_and_titles1", title = "# Axes and titles")`
+
+---
+
+```{r, axes_and_titles2, include = FALSE}
+ggplot(
+  mpg,
+  aes(x = displ, y = cty)
+) +
+  geom_point() +
+  scale_x_continuous(
+    breaks = c(3, 6),
+    labels = c("Three", "Six")
+  )
+```
+
+`r chunk_reveal(chunk_name = "axes_and_titles2", title = "# Controling scale labels")`
+
+---
+
+class: inverse, center, middle
+
+# Faceting
+
+---
+
+# Faceting
+
+Faceting is a tool of the `ggplot2` library that allows displaying additional categorical variables in facets.
+
+There are two types of faceting: `facet_grid()` and `facet_wrap()`.
+
+---
+
+```{r, facet1, include = FALSE}
+ggplot(
+  mpg,
+  aes(x = displ, y = cty)
+) +
+  geom_point() +
+  facet_wrap(~class)
+```
+
+`r chunk_reveal(chunk_name = "facet1", title = "# 1D faceting")`
+
+---
+
+```{r, facet2, include = FALSE}
+ggplot(
+  mpg,
+  aes(x = displ, y = cty)
+) +
+  geom_point() +
+  facet_wrap(~class, scales = "free")
+```
+
+`r chunk_reveal(chunk_name = "facet2", title = "# 1D faceting")`
+
+---
+
+```{r, facet3, include = FALSE}
+ggplot(
+  mpg,
+  aes(x = cty)
+) +
+  geom_histogram() +
+  facet_grid(cyl ~ class)
+```
+
+`r chunk_reveal(chunk_name = "facet3", title = "# 2D faceting")`
+
+---
+
+# Saving your graphics
+
+Saving `ggplot2` graphics is done with the `ggsave()` function.
+
+```{r, eval = FALSE}
+p <- ggplot(mpg, aes(x = displ, y = cty)) +
+  geom_point()
+```
+
+**Vector formats**
+
+```{r, eval=FALSE}
+ggsave("path/to/myfile.pdf", p, width = 5.97, height = 4.79)
+ggsave("path/to/myfile.eps", p, width = 5.97, height = 4.79)
+ggsave("path/to/myfile.ps", p, width = 5.97, height = 4.79)
+```
+
+**Raster formats**
+
+```{r, eval=FALSE}
+ggsave("path/to/myfile.jpg", p, width = 5.97, height = 4.79, dpi = 300)
+ggsave("path/to/myfile.tiff", p, width = 5.97, height = 4.79, dpi = 300)
+ggsave("path/to/myfile.png", p, width = 5.97, height = 4.79, dpi = 300)
+```
+
+---
+
+class: inverse, center, middle
+
+# Using ggplot2 themes
+
+---
+
+# `ggplot2` theme
+
+> Themes are a powerful way to customize the non-data components of your plots: i.e. titles, labels, fonts, background, gridlines, and legends.
+
+Many components can be changed using the `theme()` function. Today we are going to see just a few of them, but feel free to have a look at `?theme` to have more information.
+
+---
+
+```{r, theme1, include = FALSE}
+p +
+  theme_bw() +
+  theme_light() +
+  theme_gray() +
+  theme_dark() +
+  theme_void() +
+  ggthemes::theme_solarized() +
+  ggthemes::theme_fivethirtyeight() +
+  ggthemes::theme_calc() +
+  ggthemes::theme_excel()
+```
+
+`r chunk_reveal(chunk_name = "theme1", title = "# Built in themes")`
+
+---
+
+```{r, legend_position, include = FALSE}
+p +
+  theme(legend.position = "top") +
+  theme(legend.position = "left") +
+  theme(legend.position = "bottom")
+```
+
+`r chunk_reveal(chunk_name = "legend_position", title = "# Legend position")`
+
+---
+
+```{r, grid, include = FALSE}
+p +
+  theme(
+    panel.grid = element_line(
+      size = 3,
+      color = "red"
+    )
+  )
+```
+
+`r chunk_reveal(chunk_name = "grid", title = "# Grid")`
+
+---
+
+```{r, ticks, include = FALSE}
+p +
+  theme(
+    axis.ticks = element_line(
+      size = 2,
+      color = "blue"
+    ),
+    axis.ticks.length = unit(1, "cm")
+  )
+```
+
+`r chunk_reveal(chunk_name = "ticks", title = "# Axes ticks")`
+
+---
+
+class: inverse, center, middle
+
+<center>
+<figure>
+  <img src="https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/patchwork_1.jpg?raw=true" width="700">
+<figcaption>
+    Artwork by <a href="https://twitter.com/allison_horst?s=20">@allison_horst</a>
+</figcaption>
+</figure>
+</center>
+
+---
+
+# Combining plots
+
+It is often useful to combine plots and many R packages can do it. Here we are going to have a quick overview of the `patchwork` package. The package is not part of base R so it needs to be installed and loaded before you can use it.
+
+```{r, eval = FALSE}
+install.packages("patchwork")
+
+library(patchwork)
+```
+
+<center>
+<figure>
+  <img src="https://github.com/thomasp85/patchwork/blob/master/man/figures/logo.png?raw=true" width="200">
+  <figcaption>
+    <a href="https://github.com/thomasp85/patchwork">The patchwork package</a>
+</figcaption>
+</figure>
+</center>
+
+---
+
+# Combining plots
+
+First, let's make some plots. We are going to use a dataset about [alcohol use by country](https://datahub.io/five-thirty-eight/alcohol-consumption/r/0.html). It is a dataset containing 193 rows and 5 columns. Here is a preview of the data.
+
+```{r, echo = FALSE}
+df <- read_csv(here::here("data", "raw", "drinks_csv.csv"))
+
+df %>%
+  rmarkdown::paged_table()
+```
+
+---
+
+# Overview of the data
+
+The data description is as follows:
+
+- `country`: Name of the country
+
+- `beer_servings`: Average number of beer servings per capita
+
+- `spirit_servings`: 	Average number of spirit servings per capita
+
+- `wine_servings`: 	Average number of wine servings per capita
+
+- `total_litres_of_pure_alcohol`: Average quantity of pure alcohol consumed per capita 
+
+---
+
+# Lets make a first plot
+
+This graph shows the top 10 countries with the highest average quantity of pure alcohol consumed.
+
+```{r, echo = FALSE}
+df_viz <- df %>%
+  top_n(total_litres_of_pure_alcohol, n = 10) %>%
+  pivot_longer(
+    -c(country, total_litres_of_pure_alcohol),
+    names_to = "serving_type",
+    values_to = "serving_quantity"
+  )
+```
+
+```{r, echo = FALSE}
+p1 <- df_viz %>%
+  mutate(
+    country = fct_reorder(country, total_litres_of_pure_alcohol)
+  ) %>%
+  ggplot(aes(x = total_litres_of_pure_alcohol, y = country)) +
+  geom_col() +
+  labs(
+    x = "Average quantity of pure alcohol\nconsumed per capita (liters)",
+    y = NULL
+  )
+```
+
+```{r}
+p1
+```
+
+---
+
+# Lets make a second plot
+
+This graph shows the type of servings for the top 10 countries with the highest average quantity of pure alcohol consumed.
+
+```{r, echo = FALSE}
+p2 <- df_viz %>%
+  mutate(
+    country = fct_reorder(country, total_litres_of_pure_alcohol)
+  ) %>%
+  ggplot(aes(x = serving_quantity, y = country, fill = serving_type)) +
+  geom_col() +
+  labs(
+    x = "Average number of servings",
+    y = NULL
+  ) +
+  scale_fill_viridis_d(
+    breaks = c("beer_servings", "spirit_servings", "wine_servings"),
+    labels = c("Beer", "Spirit", "Wine")
+  ) +
+  theme(
+    legend.title = element_blank()
+  )
+```
+
+```{r}
+p2
+```
+
+---
+
+# Combining horizontally
+
+```{r, fig.width = 10}
+p1 + p2
+```
+
+---
+
+# Combining vertically
+
+```{r, fig.width = 7}
+p1 / p2
+```
+
+---
+
+# More complex arrangement
+
+```{r, fig.width = 10, out.width="100%"}
+(p1 + p2) / p1
+```
+
+---
+
+# Adding labels
+
+It is often necessary to identify each panel (graph) with a letter. This can be achieved with the `plot_annotation()`.
+
+```{r, fig.width = 7}
+p1 / p2 +
+  plot_annotation(tag_levels = "A") #<<
+```
+
+---
+
+# A final note...
+
+There is a lot to learn about `ggplot2` and data visualization, but I hope you have learned something today.
+
+If it is not the case...
+
+--
+
+<div class="row">
+    <div class="column">
+        <img src="https://media.giphy.com/media/62cTOas6rcoRQsxwSy/giphy.gif" alt="Snow" style="width:80%">
+    </div>
+    <div class="column">
+        <img src="https://media.giphy.com/media/3Gl8sOjurR3ihZj27S/giphy.gif" alt="Forest" style="width:80%">
+    </div>
+    <div class="column">
+        <img src="https://media.giphy.com/media/ekvSclOoygt90LW8Ro/giphy.gif" alt="Forest" style="width:80%">
+    </div>
+</div>
