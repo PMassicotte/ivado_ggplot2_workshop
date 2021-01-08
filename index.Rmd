@@ -64,7 +64,6 @@ htmltools::tagList(
 )
 ```
 
-
 <br>
 
 <center><img src="img/myname.png" alt="drawing" width="400"/></center>
@@ -127,9 +126,10 @@ htmltools::tagList(
 - It makes complex data more accessible -> **reveal data**.
 
 - Bad graphics can be a reason for paper rejection!
+    * <span class="underline--magical">Readers should rapidly understand the message you are trying to convey.</span>
 
 - A picture is worth a thousand words.
-    * Always, always, always plot your data!
+    * <span class="underline--magical">Always, always, always plot your data!</span>
     * When possible, replace tables with figures that are more compelling.
 
 ---
@@ -229,7 +229,7 @@ As already said, `ggplot2` can be intimidating at first. However, with some prac
     </div>
 </div>
 
-Most people participating to the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!
+<span class="underline--magical">Most people participating to the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!</span>
 
 ---
 
