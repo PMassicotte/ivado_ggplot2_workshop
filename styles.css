@@ -37,6 +37,13 @@ figcaption {
   text-align: center;
 }
 
+credit {
+  font-size: 14px;
+  color: #808080;
+  font-family: "PT Sans Caption", sans-serif;
+  text-align: right;
+}
+
 .caption {
   font-size: 14px;
   color: #808080;
@@ -51,8 +58,8 @@ body {
 /* Change link appearance */
 
 a {
-  color: #f22b29;
-  border-bottom: 3px solid #f22b29;
+  color: #C25450;
+  border-bottom: 3px solid #C25450;
   line-height: 2rem;
 }
 
@@ -63,7 +70,7 @@ a:hover {
 /* Three image containers (use 25% for four, and 50% for two, etc) */
 .column {
   float: left;
-  width: 33.33%;
+  width: 30%;
   padding: 5px;
 }
 
@@ -82,7 +89,8 @@ a:hover {
 Start Important Part
 ==================================================*/
 
-.underline--magical {
+/*
+.gradient-underline {
   background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
   background-repeat: no-repeat;
   background-size: 100% 0.2em;
@@ -92,4 +100,13 @@ Start Important Part
     background-size: 100% 88%;
   }
 }
+*/
 
+.gradient-underline {
+    color: rgb(0, 0, 0);
+    background-image: linear-gradient(rgb(217, 242, 228), rgb(217, 242, 228));
+    background-repeat: no-repeat;
+    background-position: 0 88%;
+    background-size: 100% 0.2em;
+    text-decoration: none;
+}

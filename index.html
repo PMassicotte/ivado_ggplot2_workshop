@@ -11,10 +11,11 @@
     <link href="libs/remark-css/robot-fonts.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
-    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
-    <script src="libs/tile-view/tile-view.js"></script>
-    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
-    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <script src="libs/peerjs/peerjs.min.js"></script>
+    <script src="libs/tiny.toast/toast.min.js"></script>
+    <link href="libs/xaringanExtra-broadcast/broadcast.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-broadcast/broadcast.js"></script>
     <script src="libs/clipboard/clipboard.min.js"></script>
     <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
@@ -105,15 +106,15 @@ class: center, middle, inverse, title-slide
 - It makes complex data more accessible -&gt; **reveal data**.
 
 - Bad graphics can be a reason for paper rejection!
-    * &lt;span class="underline--magical"&gt;Readers should rapidly understand the message you are trying to convey.&lt;/span&gt;
+    * &lt;span class="gradient-underline"&gt;Readers should rapidly understand the message you are trying to convey.&lt;/span&gt;
 
 - A picture is worth a thousand words.
-    * &lt;span class="underline--magical"&gt;Always, always, always plot your data!&lt;/span&gt;
+    * &lt;span class="gradient-underline"&gt;Always, always, always plot your data!&lt;/span&gt;
     * When possible, replace tables with figures that are more compelling.
 
 ---
 
-# Different type of visualizations
+# Different types of visualizations
 
 There are many types of visualization to chose from to present data. The decision depends on the data itself and how you want to present it to your audience.
 
@@ -141,6 +142,15 @@ class: inverse, center, middle
 
 &gt; ggplot2 is a system for declaratively creating graphics, based on [The Grammar of Graphics](https://amzn.to/2ef1eWp).
 
+.left-column[
+&lt;center&gt;
+&lt;figure&gt;
+  &lt;img src="https://raw.githubusercontent.com/tidyverse/ggplot2/master/man/figures/logo.png" width="300"&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+]
+
+.right-column[
 `ggplot2` is not part of base R, so it needs to be installed.
 
 
@@ -154,6 +164,7 @@ After the installation, you will have to load it.
 ```r
 library(ggplot2)
 ```
+]
 
 ---
 
@@ -162,7 +173,7 @@ library(ggplot2)
 `ggplot2` is a very powerful tool. The learning curve can be difficult, but the time investment will eventually pay off.
 
 &lt;center&gt;
-    &lt;img src="img/tidytuesday_2020_week04.png" alt="drawing" width="900"/&gt;
+    &lt;img src="img/tidytuesday_2020_week04.png" alt="drawing" width="800"/&gt;
 &lt;/center&gt;
 
 ---
@@ -189,14 +200,14 @@ As already said, `ggplot2` can be intimidating at first. However, with some prac
 &lt;div class="row"&gt;
     &lt;div class="column"&gt;
         &lt;img src="https://christianburkhart.de/static/30599239f2edece767ae2434a6665c60/47218/tidytuesday_birds.png"
-            alt="Snow" style="width:100%"&gt;
+            alt="Snow" style="width:80%"&gt;
         &lt;figcaption&gt;
             Graphic by &lt;a href=https://twitter.com/ChBurkhart"&gt;@ChBurkhart&lt;/a&gt;
         &lt;/figcaption&gt;
     &lt;/div&gt;
     &lt;div class="column"&gt;
         &lt;img src="https://github.com/jkaupp/tidytuesdays/blob/437b47ad14bd3d6d66dca41e0a4a84c9d96716fb/2020/week44/tw44_plot.png?raw=true"
-            alt="Forest" style="width:100%"&gt;
+            alt="Forest" style="width:80%"&gt;
         &lt;figcaption&gt;
             Graphic by &lt;a href=https://twitter.com/jakekaupp"&gt;@jakekaupp&lt;/a&gt;
         &lt;/figcaption&gt;
@@ -210,7 +221,7 @@ As already said, `ggplot2` can be intimidating at first. However, with some prac
     &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;span class="underline--magical"&gt;Most people participating to the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!&lt;/span&gt;
+&lt;span class="gradient-underline"&gt;Most people participating to the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!&lt;/span&gt;
 
 ---
 
@@ -233,6 +244,8 @@ For the following examples, we are going to use the data from the `mpg` dataset.
 ---
 
 # The data
+
+It should be noted that `ggplot2` package operates on R `dataframes`.
 
 
 ```r
@@ -258,35 +271,39 @@ str(mpg)
 
 # Understanding the ggplot2 syntax
 
-&lt;center&gt;&lt;img src="img/ggplot2_structure.svg" alt="drawing" width="800"/&gt;&lt;/center&gt;
+A `ggplot2` plot is build layer by layer by using the `+` operator. 
 
+&lt;center&gt;
+    &lt;img src="img/ggplot2_structure.svg" alt="drawing" width="800"/&gt;
+&lt;/center&gt;
+&lt;figcaption&gt;
+    The basic structure of a ggplot2 plot.
+&lt;/figcaption&gt;
+        
 ---
 
 # The geoms 
 
-`geoms` is the abreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with `geom_`.
+`geoms` is the abbreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with `geom_`.
 
+&lt;small&gt;
 
 ```
-##  [1] "geom_abline"            "geom_area"              "geom_bar"              
-##  [4] "geom_bin2d"             "geom_blank"             "geom_boxplot"          
-##  [7] "geom_col"               "geom_contour"           "geom_contour_filled"   
-## [10] "geom_count"             "geom_crossbar"          "geom_curve"            
-## [13] "geom_density"           "geom_density_2d"        "geom_density_2d_filled"
-## [16] "geom_density2d"         "geom_density2d_filled"  "geom_dotplot"          
-## [19] "geom_errorbar"          "geom_errorbarh"         "geom_freqpoly"         
-## [22] "geom_function"          "geom_hex"               "geom_histogram"        
-## [25] "geom_hline"             "geom_jitter"            "geom_label"            
-## [28] "geom_line"              "geom_linerange"         "geom_map"              
-## [31] "geom_path"              "geom_point"             "geom_pointrange"       
-## [34] "geom_polygon"           "geom_qq"                "geom_qq_line"          
-## [37] "geom_quantile"          "geom_raster"            "geom_rect"             
-## [40] "geom_ribbon"            "geom_rug"               "geom_segment"          
-## [43] "geom_sf"                "geom_sf_label"          "geom_sf_text"          
-## [46] "geom_smooth"            "geom_spoke"             "geom_step"             
-## [49] "geom_text"              "geom_tile"              "geom_violin"           
-## [52] "geom_vline"
+##  [1] "geom_abline"            "geom_area"              "geom_bar"               "geom_bin2d"            
+##  [5] "geom_blank"             "geom_boxplot"           "geom_col"               "geom_contour"          
+##  [9] "geom_contour_filled"    "geom_count"             "geom_crossbar"          "geom_curve"            
+## [13] "geom_density"           "geom_density_2d"        "geom_density_2d_filled" "geom_density2d"        
+## [17] "geom_density2d_filled"  "geom_dotplot"           "geom_errorbar"          "geom_errorbarh"        
+## [21] "geom_freqpoly"          "geom_function"          "geom_hex"               "geom_histogram"        
+## [25] "geom_hline"             "geom_jitter"            "geom_label"             "geom_line"             
+## [29] "geom_linerange"         "geom_map"               "geom_path"              "geom_point"            
+## [33] "geom_pointrange"        "geom_polygon"           "geom_qq"                "geom_qq_line"          
+## [37] "geom_quantile"          "geom_raster"            "geom_rect"              "geom_ribbon"           
+## [41] "geom_rug"               "geom_segment"           "geom_sf"                "geom_sf_label"         
+## [45] "geom_sf_text"           "geom_smooth"            "geom_spoke"             "geom_step"             
+## [49] "geom_text"              "geom_tile"              "geom_violin"            "geom_vline"
 ```
+&lt;/small&gt;
 
 ---
 
@@ -298,7 +315,7 @@ class: inverse, center, middle
 
 # One variable graphics
 
-There are two main types of one variable graphics:
+In this section, we are going to see the two main types of one variable graphics:
 
 | **Graphic type** | **Geom**           | **Description**                          |
 |------------------|--------------------|------------------------------------------|
@@ -454,7 +471,7 @@ class: inverse, center, middle
 
 # Two variables graphics
 
-There are plenty of 
+There are several types of charts with two variables. Here are the three type mostly used.
 
 | **Graphic type** | **Geom**         | **Description**                            |
 |------------------|------------------|--------------------------------------------|
@@ -1350,13 +1367,40 @@ ggsave("path/to/myfile.png", p, width = 5.97, height = 4.79, dpi = 300)
 
 ---
 
+# Vector vs raster graphics
+
+.pull-left[
+&gt; The main difference between vector and raster graphics is that raster graphics are composed of pixels, while vector graphics are composed of paths.
+.left[
+&lt;credit&gt;
+    Source: &lt;a href="https://www.geeksforgeeks.org/vector-vs-raster-graphics/"&gt;Vector vs Raster Graphics&lt;/a&gt;
+&lt;/credit&gt;
+]
+
+Scientific journals often require 300 DPI raster or vector graphics.   
+
+]
+
+.pull-right[
+&lt;center&gt;
+&lt;figure&gt;
+  &lt;img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/VectorBitmapExample.svg" height="400"&gt;
+  &lt;figcaption&gt;
+    Source: Wikipedia 
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/center&gt;
+]
+
+---
+
 class: inverse, center, middle
 
 # Using ggplot2 themes
 
 ---
 
-# `ggplot2` theme
+# `ggplot2` themes
 
 &gt; Themes are a powerful way to customize the non-data components of your plots: i.e. titles, labels, fonts, background, gridlines, and legends.
 
@@ -1470,96 +1514,6 @@ p +
 &lt;img src="index_files/figure-html/theme1_auto_06_output-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
----
-count: false
- 
-# Built in themes
-.panel1-theme1-auto[
-
-```r
-p +
-  theme_bw() +
-  theme_light() +
-  theme_gray() +
-  theme_dark() +
-  theme_void() +
-* ggthemes::theme_solarized()
-```
-]
- 
-.panel2-theme1-auto[
-&lt;img src="index_files/figure-html/theme1_auto_07_output-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-# Built in themes
-.panel1-theme1-auto[
-
-```r
-p +
-  theme_bw() +
-  theme_light() +
-  theme_gray() +
-  theme_dark() +
-  theme_void() +
-  ggthemes::theme_solarized() +
-* ggthemes::theme_fivethirtyeight()
-```
-]
- 
-.panel2-theme1-auto[
-&lt;img src="index_files/figure-html/theme1_auto_08_output-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-# Built in themes
-.panel1-theme1-auto[
-
-```r
-p +
-  theme_bw() +
-  theme_light() +
-  theme_gray() +
-  theme_dark() +
-  theme_void() +
-  ggthemes::theme_solarized() +
-  ggthemes::theme_fivethirtyeight() +
-* ggthemes::theme_calc()
-```
-]
- 
-.panel2-theme1-auto[
-&lt;img src="index_files/figure-html/theme1_auto_09_output-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-count: false
- 
-# Built in themes
-.panel1-theme1-auto[
-
-```r
-p +
-  theme_bw() +
-  theme_light() +
-  theme_gray() +
-  theme_dark() +
-  theme_void() +
-  ggthemes::theme_solarized() +
-  ggthemes::theme_fivethirtyeight() +
-  ggthemes::theme_calc() +
-* ggthemes::theme_excel()
-```
-]
- 
-.panel2-theme1-auto[
-&lt;img src="index_files/figure-html/theme1_auto_10_output-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
 &lt;style&gt;
 .panel1-theme1-auto {
   color: black;
@@ -1578,6 +1532,186 @@ p +
   font-size: 80%
 }
 .panel3-theme1-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+---
+
+
+
+count: false
+ 
+# External themes
+.panel1-theme2-auto[
+
+```r
+*p 
+```
+]
+ 
+.panel2-theme2-auto[
+&lt;img src="index_files/figure-html/theme2_auto_01_output-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+# External themes
+.panel1-theme2-auto[
+
+```r
+p +
+* ggthemes::theme_solarized()
+```
+]
+ 
+.panel2-theme2-auto[
+&lt;img src="index_files/figure-html/theme2_auto_02_output-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+# External themes
+.panel1-theme2-auto[
+
+```r
+p +
+  ggthemes::theme_solarized() +
+* ggthemes::theme_fivethirtyeight()
+```
+]
+ 
+.panel2-theme2-auto[
+&lt;img src="index_files/figure-html/theme2_auto_03_output-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+# External themes
+.panel1-theme2-auto[
+
+```r
+p +
+  ggthemes::theme_solarized() +
+  ggthemes::theme_fivethirtyeight() +
+* ggthemes::theme_calc()
+```
+]
+ 
+.panel2-theme2-auto[
+&lt;img src="index_files/figure-html/theme2_auto_04_output-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+# External themes
+.panel1-theme2-auto[
+
+```r
+p +
+  ggthemes::theme_solarized() +
+  ggthemes::theme_fivethirtyeight() +
+  ggthemes::theme_calc() +
+* ggthemes::theme_excel()
+```
+]
+ 
+.panel2-theme2-auto[
+&lt;img src="index_files/figure-html/theme2_auto_05_output-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+# External themes
+.panel1-theme2-auto[
+
+```r
+p +
+  ggthemes::theme_solarized() +
+  ggthemes::theme_fivethirtyeight() +
+  ggthemes::theme_calc() +
+  ggthemes::theme_excel() +
+* ggpubr::theme_pubr()
+```
+]
+ 
+.panel2-theme2-auto[
+&lt;img src="index_files/figure-html/theme2_auto_06_output-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+# External themes
+.panel1-theme2-auto[
+
+```r
+p +
+  ggthemes::theme_solarized() +
+  ggthemes::theme_fivethirtyeight() +
+  ggthemes::theme_calc() +
+  ggthemes::theme_excel() +
+  ggpubr::theme_pubr() +
+* ggpubr::theme_cleveland()
+```
+]
+ 
+.panel2-theme2-auto[
+&lt;img src="index_files/figure-html/theme2_auto_07_output-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+---
+count: false
+ 
+# External themes
+.panel1-theme2-auto[
+
+```r
+p +
+  ggthemes::theme_solarized() +
+  ggthemes::theme_fivethirtyeight() +
+  ggthemes::theme_calc() +
+  ggthemes::theme_excel() +
+  ggpubr::theme_pubr() +
+  ggpubr::theme_cleveland() +
+* ggpubr::theme_pubclean()
+```
+]
+ 
+.panel2-theme2-auto[
+&lt;img src="index_files/figure-html/theme2_auto_08_output-1.svg" style="display: block; margin: auto;" /&gt;
+]
+
+&lt;style&gt;
+.panel1-theme2-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-theme2-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-theme2-auto {
   color: black;
   width: NA%;
   hight: 33%;

@@ -49,6 +49,7 @@ xaringanExtra::use_xaringan_extra(
     "tachyons"
   )
 )
+xaringanExtra::use_broadcast()
 # xaringanExtra::use_clipboard()
 # xaringanExtra::use_share_again()
 ```
@@ -126,15 +127,15 @@ htmltools::tagList(
 - It makes complex data more accessible -> **reveal data**.
 
 - Bad graphics can be a reason for paper rejection!
-    * <span class="underline--magical">Readers should rapidly understand the message you are trying to convey.</span>
+    * <span class="gradient-underline">Readers should rapidly understand the message you are trying to convey.</span>
 
 - A picture is worth a thousand words.
-    * <span class="underline--magical">Always, always, always plot your data!</span>
+    * <span class="gradient-underline">Always, always, always plot your data!</span>
     * When possible, replace tables with figures that are more compelling.
 
 ---
 
-# Different type of visualizations
+# Different types of visualizations
 
 There are many types of visualization to chose from to present data. The decision depends on the data itself and how you want to present it to your audience.
 
@@ -162,6 +163,15 @@ class: inverse, center, middle
 
 > ggplot2 is a system for declaratively creating graphics, based on [The Grammar of Graphics](https://amzn.to/2ef1eWp).
 
+.left-column[
+<center>
+<figure>
+  <img src="https://raw.githubusercontent.com/tidyverse/ggplot2/master/man/figures/logo.png" width="300">
+</figure>
+</center>
+]
+
+.right-column[
 `ggplot2` is not part of base R, so it needs to be installed.
 
 ```{r, eval = FALSE}
@@ -173,6 +183,7 @@ After the installation, you will have to load it.
 ```{r, eval = FALSE}
 library(ggplot2)
 ```
+]
 
 ---
 
@@ -181,7 +192,7 @@ library(ggplot2)
 `ggplot2` is a very powerful tool. The learning curve can be difficult, but the time investment will eventually pay off.
 
 <center>
-    <img src="img/tidytuesday_2020_week04.png" alt="drawing" width="900"/>
+    <img src="img/tidytuesday_2020_week04.png" alt="drawing" width="800"/>
 </center>
 
 ---
@@ -208,14 +219,14 @@ As already said, `ggplot2` can be intimidating at first. However, with some prac
 <div class="row">
     <div class="column">
         <img src="https://christianburkhart.de/static/30599239f2edece767ae2434a6665c60/47218/tidytuesday_birds.png"
-            alt="Snow" style="width:100%">
+            alt="Snow" style="width:80%">
         <figcaption>
             Graphic by <a href=https://twitter.com/ChBurkhart">@ChBurkhart</a>
         </figcaption>
     </div>
     <div class="column">
         <img src="https://github.com/jkaupp/tidytuesdays/blob/437b47ad14bd3d6d66dca41e0a4a84c9d96716fb/2020/week44/tw44_plot.png?raw=true"
-            alt="Forest" style="width:100%">
+            alt="Forest" style="width:80%">
         <figcaption>
             Graphic by <a href=https://twitter.com/jakekaupp">@jakekaupp</a>
         </figcaption>
@@ -229,7 +240,7 @@ As already said, `ggplot2` can be intimidating at first. However, with some prac
     </div>
 </div>
 
-<span class="underline--magical">Most people participating to the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!</span>
+<span class="gradient-underline">Most people participating to the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!</span>
 
 ---
 
@@ -253,6 +264,8 @@ mpg %>%
 
 # The data
 
+It should be noted that `ggplot2` package operates on R `dataframes`.
+
 ```{r}
 str(mpg)
 ```
@@ -261,17 +274,26 @@ str(mpg)
 
 # Understanding the ggplot2 syntax
 
-<center><img src="img/ggplot2_structure.svg" alt="drawing" width="800"/></center>
+A `ggplot2` plot is build layer by layer by using the `+` operator. 
 
+<center>
+    <img src="img/ggplot2_structure.svg" alt="drawing" width="800"/>
+</center>
+<figcaption>
+    The basic structure of a ggplot2 plot.
+</figcaption>
+        
 ---
 
 # The geoms 
 
-`geoms` is the abreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with `geom_`.
+`geoms` is the abbreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with `geom_`.
 
+<small>
 ```{r, echo = FALSE}
 ls(pattern = "^geom_", env = as.environment("package:ggplot2"))
 ```
+</small>
 
 ---
 
@@ -283,7 +305,7 @@ class: inverse, center, middle
 
 # One variable graphics
 
-There are two main types of one variable graphics:
+In this section, we are going to see the two main types of one variable graphics:
 
 | **Graphic type** | **Geom**           | **Description**                          |
 |------------------|--------------------|------------------------------------------|
@@ -325,7 +347,7 @@ class: inverse, center, middle
 
 # Two variables graphics
 
-There are plenty of 
+There are several types of charts with two variables. Here are the three type mostly used.
 
 | **Graphic type** | **Geom**         | **Description**                            |
 |------------------|------------------|--------------------------------------------|
@@ -608,13 +630,40 @@ ggsave("path/to/myfile.png", p, width = 5.97, height = 4.79, dpi = 300)
 
 ---
 
+# Vector vs raster graphics
+
+.pull-left[
+> The main difference between vector and raster graphics is that raster graphics are composed of pixels, while vector graphics are composed of paths.
+.left[
+<credit>
+    Source: <a href="https://www.geeksforgeeks.org/vector-vs-raster-graphics/">Vector vs Raster Graphics</a>
+</credit>
+]
+
+Scientific journals often require 300 DPI raster or vector graphics.   
+
+]
+
+.pull-right[
+<center>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/VectorBitmapExample.svg" height="400">
+  <figcaption>
+    Source: Wikipedia 
+</figcaption>
+</figure>
+</center>
+]
+
+---
+
 class: inverse, center, middle
 
 # Using ggplot2 themes
 
 ---
 
-# `ggplot2` theme
+# `ggplot2` themes
 
 > Themes are a powerful way to customize the non-data components of your plots: i.e. titles, labels, fonts, background, gridlines, and legends.
 
@@ -628,14 +677,25 @@ p +
   theme_light() +
   theme_gray() +
   theme_dark() +
-  theme_void() +
-  ggthemes::theme_solarized() +
-  ggthemes::theme_fivethirtyeight() +
-  ggthemes::theme_calc() +
-  ggthemes::theme_excel()
+  theme_void()
 ```
 
 `r chunk_reveal(chunk_name = "theme1", title = "# Built in themes")`
+
+---
+
+```{r, theme2, include = FALSE}
+p +
+  ggthemes::theme_solarized() +
+  ggthemes::theme_fivethirtyeight() +
+  ggthemes::theme_calc() +
+  ggthemes::theme_excel() +
+  ggpubr::theme_pubr() +
+  ggpubr::theme_cleveland() +
+  ggpubr::theme_pubclean()
+```
+
+`r chunk_reveal(chunk_name = "theme2", title = "# External themes")`
 
 ---
 
