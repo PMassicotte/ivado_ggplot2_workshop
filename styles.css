@@ -103,7 +103,6 @@ Start Important Part
 */
 
 .gradient-underline {
-    color: rgb(0, 0, 0);
     background-image: linear-gradient(rgb(217, 242, 228), rgb(217, 242, 228));
     background-repeat: no-repeat;
     background-position: 0 88%;
