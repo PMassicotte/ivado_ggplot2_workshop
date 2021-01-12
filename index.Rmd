@@ -1,11 +1,12 @@
 ---
 title: "Introduction to ggplot2"
-subtitle: "Workshop #6: data visualization in R"
+subtitle: "Data visualization in R<br>*The 100 Days of Data.trek Challenge*"
 author: "Philippe Massicotte"
 date: "2021-02-03"
 output:
   xaringan::moon_reader:
     yolo: false
+    seal: false
     lib_dir: libs
     css: [default, default, robot-fonts, styles.css]
     nature:
@@ -52,6 +53,7 @@ xaringanExtra::use_xaringan_extra(
 xaringanExtra::use_broadcast()
 # xaringanExtra::use_clipboard()
 # xaringanExtra::use_share_again()
+
 ```
 
 ```{r xaringanExtra-clipboard, echo=FALSE}
@@ -64,6 +66,20 @@ htmltools::tagList(
   rmarkdown::html_dependency_font_awesome()
 )
 ```
+
+class: inverse, center, middle
+
+# Introduction to ggplo2
+
+### *The 100 Days of Data.trek Challenge*
+
+![](https://ivado.ca/wp-content/themes/ivadooo/assets/svg/siteLogo.svg)
+
+### .orange[Philippe Massicotte]
+
+#### 2021-02-03
+
+---
 
 <br>
 
@@ -256,7 +272,7 @@ For the following examples, we are going to use the data from the `mpg` dataset.
 
 ```{r, echo = FALSE}
 mpg %>%
-  head(50) %>% 
+  head(50) %>%
   rmarkdown::paged_table()
 ```
 
@@ -425,7 +441,7 @@ If we want to set a specific color, we have to set it outside the aesthetic: `ge
 
 ```{r, fig.height = 3.5}
 ggplot(mpg, aes(x = displ, y = hwy)) +
-  geom_point(color = "orange") #<<
+  geom_point(color = "orange") # <<
 ```
 
 ---
@@ -436,7 +452,7 @@ If we want to set a color based on a variable, we have to use the aesthetic: `ae
 
 ```{r, fig.height = 3.5}
 ggplot(mpg, aes(x = displ, y = hwy)) +
-  geom_point(aes(color = class)) #<<
+  geom_point(aes(color = class)) # <<
 ```
 
 ---
@@ -447,7 +463,7 @@ In the same manner, the size of the dots can be based on a particular variable.
 
 ```{r, fig.height = 4}
 ggplot(mpg, aes(x = displ, y = hwy)) +
-  geom_point(aes(size = cyl)) #<<
+  geom_point(aes(size = cyl)) # <<
 ```
 
 ---
@@ -895,7 +911,7 @@ It is often necessary to identify each panel (graph) with a letter. This can be 
 
 ```{r, fig.width = 7}
 p1 / p2 +
-  plot_annotation(tag_levels = "A") #<<
+  plot_annotation(tag_levels = "A") # <<
 ```
 
 ---

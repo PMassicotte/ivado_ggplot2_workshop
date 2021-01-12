@@ -26,14 +26,6 @@
   </head>
   <body>
     <textarea id="source">
-class: center, middle, inverse, title-slide
-
-# Introduction to ggplot2
-## Workshop #6: data visualization in R
-### Philippe Massicotte
-### 2021-02-03
-
----
 
 
 &lt;!-- https://evamaerey.github.io/flipbooks/flipbook_recipes#49 --&gt;
@@ -43,6 +35,20 @@ class: center, middle, inverse, title-slide
 
 
 
+
+class: inverse, center, middle
+
+# Introduction to ggplo2
+
+### *The 100 Days of Data.trek Challenge*
+
+![](https://ivado.ca/wp-content/themes/ivadooo/assets/svg/siteLogo.svg)
+
+### .orange[Philippe Massicotte]
+
+#### 2021-02-03
+
+---
 
 &lt;br&gt;
 
@@ -712,7 +718,7 @@ If we want to set a specific color, we have to set it outside the aesthetic: `ge
 
 ```r
 ggplot(mpg, aes(x = displ, y = hwy)) +
-* geom_point(color = "orange")
+  geom_point(color = "orange") # &lt;&lt;
 ```
 
 &lt;img src="index_files/figure-html/unnamed-chunk-8-1.svg" style="display: block; margin: auto;" /&gt;
@@ -726,7 +732,7 @@ If we want to set a color based on a variable, we have to use the aesthetic: `ae
 
 ```r
 ggplot(mpg, aes(x = displ, y = hwy)) +
-* geom_point(aes(color = class))
+  geom_point(aes(color = class)) # &lt;&lt;
 ```
 
 &lt;img src="index_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
@@ -740,7 +746,7 @@ In the same manner, the size of the dots can be based on a particular variable.
 
 ```r
 ggplot(mpg, aes(x = displ, y = hwy)) +
-* geom_point(aes(size = cyl))
+  geom_point(aes(size = cyl)) # &lt;&lt;
 ```
 
 &lt;img src="index_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
@@ -2095,7 +2101,7 @@ It is often necessary to identify each panel (graph) with a letter. This can be 
 
 ```r
 p1 / p2 +
-* plot_annotation(tag_levels = "A")
+  plot_annotation(tag_levels = "A") # &lt;&lt;
 ```
 
 &lt;img src="index_files/figure-html/unnamed-chunk-25-1.svg" style="display: block; margin: auto;" /&gt;
