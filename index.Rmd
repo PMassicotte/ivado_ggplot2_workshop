@@ -353,6 +353,33 @@ ggplot(
 
 ---
 
+# Ordering things
+
+It can be useful to reorder a categorical variable to make a plot easier to understand. One way to do it is with `forcats::fct_infreq()`. Note that the `forcats` library is not part of base R and must be installed separately.
+
+.pull-left[
+
+<small>
+```{r reorder-factor, eval=FALSE}
+ggplot(
+  data = mpg,
+  mapping = aes(x = forcats::fct_infreq(class)) #<<
+) +
+  geom_bar()
+```
+</small>
+]
+
+.pull-right[
+```{r, ref.label="reorder-factor", echo=FALSE}
+
+```
+]
+
+You can have a look to the `forcats::fct_reorder()` function to reorder a categorical variable using another variable.
+
+---
+
 class: inverse, center, middle
 
 # Two variables graphics
@@ -417,7 +444,7 @@ class: inverse, center, middle
 
 # Geom aesthetics
 
-Aesthetics such as *color*, *shape*, *size* of the displayed geoms can be controlled inside the `geom_()` functions. For example, we can change the *color* and the *size* of the point in the `geom_point()` function.
+Aesthetics such as *color*, *shape*, *size* of the displayed geoms can be controlled inside the `geom_()` functions. For example, we can change the `color` and the `size` of the point in the `geom_point()` function.
 
 ```{r eval = FALSE}
 geom_point(color = "red", size = 10)
@@ -652,7 +679,9 @@ ggsave("path/to/myfile.png", p, width = 5.97, height = 4.79, dpi = 300)
 </credit>
 ]
 
-Scientific journals often require 300 DPI raster or vector graphics.   
+- Scientific journals often require 300 DPI raster or vector graphics.
+
+- .gradient-underline[Attention: vector graphics can produce very large files for certain types of graphics (ex.: 3D plots).]
 
 ]
 
