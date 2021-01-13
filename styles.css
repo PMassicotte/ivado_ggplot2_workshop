@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Paytone+One&display=swap');
 
 .remark-inline-code {
   font-size: 90%;
@@ -117,4 +118,86 @@ Start Important Part
 
 .orange {
   color: #C25450
+}
+
+
+.title-slide {
+  background-position: 50% 20%;
+  background-size: 80%;
+  background-color: #3c3c3c;
+}
+
+
+.title-slide h1 {
+  font-family: 'Paytone One', sans-serif;
+  font-size: 3.5em;
+  word-wrap: break-word;
+  font-weight: 400;
+  margin-bottom: -10px !important;
+  color: #FFFFFF;
+}
+
+
+.title-slide h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 2em;
+  color: #FFFFFF;
+  text-transform: none;
+}
+
+.title-slide h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1.5em;
+  color: #C1C9D0;
+  text-transform: none;
+}
+
+.title-slide a {
+  color: #fff;
+}
+
+/* Hack to remove slide number on the title slide */
+.title-slide .remark-slide-number {
+  color: #3c3c3c;
+
+}
+
+.title-slide {
+    padding: 2em;
+    position: relative;
+}
+
+.title-slide:after,
+.title-slide:before {
+    border: 4pt solid #71878D;
+    bottom: 0;
+    content: '';
+    position: fixed;
+    top: 50px;
+    width: 5%;
+}
+.title-slide:after {
+    border-left: none;
+    right: 47px;
+    height: 83%;
+}
+.title-slide:before {
+    border-right: none;
+    left: 47px;
+    height: 83%;
+}
+
+.inverse {
+  background-color: #3c3c3c;
+}
+
+.inverse h1 {
+  font-family: 'Paytone One', sans-serif;
+  font-size: 3em;
+  word-wrap: break-word;
+  font-weight: 400;
+  margin-bottom: -10px !important;
+  color: #FFFFFF;
 }
