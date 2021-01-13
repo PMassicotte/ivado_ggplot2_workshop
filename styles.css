@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Paytone+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;600&display=swap');
 
 .remark-inline-code {
   font-size: 90%;
@@ -139,16 +140,16 @@ Start Important Part
 
 
 .title-slide h2 {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 600;
   font-size: 2em;
   color: #FFFFFF;
   text-transform: none;
 }
 
 .title-slide h3 {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 200;
   font-size: 1.5em;
   color: #C1C9D0;
   text-transform: none;
