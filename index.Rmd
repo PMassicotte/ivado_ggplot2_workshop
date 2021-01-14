@@ -322,7 +322,7 @@ class: inverse, center, middle
 In this section, we are going to see the two main types of one variable graphics:
 
 | **Graphic type** | **Geom**           | **Description**                          |
-|------------------|--------------------|------------------------------------------|
+| ---------------- | ------------------ | ---------------------------------------- |
 | Histogram        | `geom_histogram()` | Produces histograms for continuous data. |
 | Barplot          | `geom_bar()`       | Produces histograms for discrete data.   |
 
@@ -353,33 +353,6 @@ ggplot(
 
 ---
 
-# Ordering things
-
-It can be useful to reorder a categorical variable to make a plot easier to understand. One way to do it is with `forcats::fct_infreq()`. Note that the `forcats` library is not part of base R and must be installed separately.
-
-.pull-left[
-
-<small>
-```{r reorder-factor, eval=FALSE}
-ggplot(
-  data = mpg,
-  mapping = aes(x = forcats::fct_infreq(class)) #<<
-) +
-  geom_bar()
-```
-</small>
-]
-
-.pull-right[
-```{r, ref.label="reorder-factor", echo=FALSE}
-
-```
-]
-
-You can have a look to the `forcats::fct_reorder()` function to reorder a categorical variable using another variable.
-
----
-
 class: inverse, center, middle
 
 # Two variables graphics
@@ -390,11 +363,104 @@ class: inverse, center, middle
 
 There are several types of charts with two variables. Here are the three types mostly used.
 
-| **Graphic type** | **Geom**         | **Description**                            |
-|------------------|------------------|--------------------------------------------|
-| Scatter plot     | `geom_point()`   | Produces scatter plot between `x` and `y`. |
-| Line plot        | `geom_line()`    | Produces line plot between `x` and `y`.    |
-| Boxplot          | `geom_boxplot()` | Boxplot between `x` and `y`.               |
+| **Graphic type** | **Geom**         | **Description**                                               |
+| ---------------- | ---------------- | ------------------------------------------------------------- |
+| Barplot          | `geom_col()`     | Produces bars with heights that represent values in the data. |
+| Scatter plot     | `geom_point()`   | Produces scatter plot between `x` and `y`.                    |
+| Line plot        | `geom_line()`    | Produces line plot between `x` and `y`.                       |
+| Boxplot          | `geom_boxplot()` | Boxplot between `x` and `y`.                                  |
+
+---
+
+# Barplot
+
+We used `geom_bar()` to visualize the number/count of cases for each value of `x`. If we want to represent values in the data (`y`), we can use `geom_col()`. For this example, I will use the `starwars` data that is included in the `dplyr` package. .gradient-underline[This graph shows the top 20 tallest characters (in cm).]
+
+```{r, echo=FALSE}
+sw <- starwars %>% 
+  slice_max(height, n =  20)
+```
+
+.pull-left[
+```{r barplot2, eval=FALSE}
+ggplot(
+  data = sw,
+  mapping = aes(
+    x = name,    #<<
+    y = height   #<<
+  )
+) +
+  geom_col()
+```
+]
+
+.pull-right[
+```{r ref.label="barplot2", echo=FALSE}
+
+```
+]
+
+What is wrong with this graph?
+
+---
+
+# Barplot
+
+In the previous graph, it was difficult to read the names on the `x` axis. A better way to present the data is by swapping the `x` and `y` axes.
+
+--
+
+.pull-left[
+```{r barplot3, eval=FALSE}
+ggplot(
+  data = sw,
+  mapping = aes(
+    x = height,  #<<
+    y = name     #<<
+  )
+) +
+  geom_col()
+```
+]
+
+.pull-right[
+```{r ref.label="barplot3", echo=FALSE}
+
+```
+]
+
+---
+
+# Ordering things
+
+We have made some improvements in the previous graph by swapping the axes. However, .gradient-underline[it would be even better if the characters were sorted by their height] to make the plot easier to understand. 
+
+--
+
+One way to do it is with `forcats::fct_reorder()`. Note that the `forcats` library is not part of base R and must be installed separately.
+
+--
+
+.pull-left[
+<small>
+```{r barplot4, eval=FALSE}
+ggplot(
+  data = sw,
+  mapping = aes(
+    x = height,
+    y = forcats::fct_reorder(name, height)  #<<
+  )
+) +
+  geom_col()
+```
+</small>
+]
+
+.pull-right[
+```{r ref.label="barplot4", echo=FALSE}
+
+```
+]
 
 ---
 
