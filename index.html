@@ -249,7 +249,7 @@ For the following examples, we are going to use the data from the `mpg` dataset.
 
 # The data
 
-It should be noted that `ggplot2` package operates on R `dataframes`.
+It should be noted that `ggplot2` package operates on R `data.frame`.
 
 
 ```r
@@ -510,13 +510,15 @@ ggplot(
 &lt;img src="index_files/figure-html/unnamed-chunk-7-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
-What is wrong with this graph?
+--
+
+**What is wrong with this graph?**
 
 ---
 
 # Barplot
 
-In the previous graph, it was difficult to read the names on the `x` axis. A better way to present the data is by swapping the `x` and `y` axes.
+In the previous graph, it was difficult to read the names on the `x` axis. .gradient-underline[A better way to present the data is by swapping the `x` and `y` axes.]
 
 --
 
@@ -945,9 +947,9 @@ These are the main parameters:
 
 - `x`, `y`: Titles for the axes
 
-- `subtitle`: Subtitle title of the graph
+- `subtitle`: Subtitle title of the graph (default: under the main title)
 
-- `caption`: Caption of the graph
+- `caption`: Caption of the graph (default: bottom right of the graph)
 
 ---
 

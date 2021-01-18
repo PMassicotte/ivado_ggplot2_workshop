@@ -84,7 +84,7 @@ a:hover {
 }
 
 .gradient-underline {
-    background-image: linear-gradient(rgb(217, 242, 228), rgb(217, 242, 228));
+    background-image: linear-gradient(rgb(116, 179, 206), rgb(116, 179, 206));
     background-repeat: no-repeat;
     background-position: 0 88%;
     background-size: 100% 0.2em;

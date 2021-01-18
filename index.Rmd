@@ -278,7 +278,7 @@ mpg %>%
 
 # The data
 
-It should be noted that `ggplot2` package operates on R `dataframes`.
+It should be noted that `ggplot2` package operates on R `data.frame`.
 
 ```{r}
 str(mpg)
@@ -400,13 +400,15 @@ ggplot(
 ```
 ]
 
-What is wrong with this graph?
+--
+
+**What is wrong with this graph?**
 
 ---
 
 # Barplot
 
-In the previous graph, it was difficult to read the names on the `x` axis. A better way to present the data is by swapping the `x` and `y` axes.
+In the previous graph, it was difficult to read the names on the `x` axis. .gradient-underline[A better way to present the data is by swapping the `x` and `y` axes.]
 
 --
 
@@ -607,9 +609,9 @@ These are the main parameters:
 
 - `x`, `y`: Titles for the axes
 
-- `subtitle`: Subtitle title of the graph
+- `subtitle`: Subtitle title of the graph (default: under the main title)
 
-- `caption`: Caption of the graph
+- `caption`: Caption of the graph (default: bottom right of the graph)
 
 ---
 
