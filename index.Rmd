@@ -32,10 +32,12 @@ knitr::opts_chunk$set(
 options(htmltools.dir.version = FALSE)
 # names(xaringan:::list_css())
 
+# devtools::install_github("rstudio/fontawesome")
 library(tidyverse)
 library(ggpmthemes)
 library(patchwork)
 library(flipbookr)
+library(fontawesome)
 
 theme_set(theme_poppins())
 
@@ -65,6 +67,12 @@ htmltools::tagList(
   ),
   rmarkdown::html_dependency_font_awesome()
 )
+```
+
+```{r xaringan-animate-all, echo=FALSE}
+# xaringanExtra::use_animate_all("fade")
+xaringanExtra::use_tachyons()
+# xaringanExtra::use_text_poster()
 ```
 
 class: title-slide, center, bottom
@@ -134,18 +142,60 @@ class: title-slide, center, bottom
 
 # Data visualization
 
+--
+
 - Important aspect of data sciences -> Communicate information clearly and efficiently to the community.
+
+--
 
 - Powerful tool to discovers patterns in the data.
 
+--
+
 - It makes complex data more accessible -> **reveal data**.
+
+--
 
 - Bad graphics can be a reason for paper rejection!
     * <span class="gradient-underline">Readers should rapidly understand the message you are trying to convey.</span>
 
+--
+
 - A picture is worth a thousand words.
     * <span class="gradient-underline">Always, always, always plot your data!</span>
     * When possible, replace tables with more compelling figures.
+
+---
+
+# The Anscombe data
+
+.gradient-underline[These four datasets have the same statistical properties (*mean*, *variance*, *correlation*). However, they look quite different.]
+
+```{r, echo = FALSE}
+anscombe %>%
+  pivot_longer(everything(),
+    names_to = c(".value", "set"),
+    names_pattern = "(.)(.)"
+  ) %>%
+  mutate(set = as.character(as.roman(set))) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point() +
+  facet_wrap(~set) +
+  geom_smooth(method = "lm", se = FALSE, color = "#577590") +
+  theme(
+    panel.border = element_blank(),
+    strip.background = element_blank(),
+    strip.text = element_text(
+      size = 20,
+      face = "bold",
+      family = "Quattrocento",
+      color = "gray75"
+    ),
+    axis.title = element_blank(),
+    axis.ticks = element_blank()
+  )
+
+```
 
 ---
 
@@ -175,7 +225,7 @@ class: inverse, center, middle
 
 # ggplot2
 
-> ggplot2 is a system for declaratively creating graphics, based on [The Grammar of Graphics](https://amzn.to/2ef1eWp).
+`ggplot2` is a system for declaratively creating graphics, based on [The Grammar of Graphics](https://amzn.to/2ef1eWp).
 
 .left-column[
 <center>
@@ -203,11 +253,18 @@ library(ggplot2)
 
 # ggplot2
 
+.column-left[
 `ggplot2` is a very powerful tool. The learning curve can be difficult, but the time investment will eventually pay off.
+]
 
+.column-right[
 <center>
-    <img src="img/tidytuesday_2020_week04.png" alt="drawing" width="800"/>
+<figure>
+  <img src="https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/r_first_then.png?raw=true" height="500">
+<figcaption>Artwork by <a href="https://twitter.com/allison_horst?s=20">@allison_horst</a></figcaption>
+</figure>
 </center>
+]
 
 ---
 
@@ -218,7 +275,7 @@ TidyTuesday is a weekly challenge where people use (mostly) `ggplot2` to explore
 > A weekly data project aimed at the R ecosystem. As this project was borne out of the R4DS Online Learning Community and the R for Data Science textbook, an emphasis was placed on understanding how to summarize and arrange data to make meaningful charts with `ggplot2`, `tidyr`, `dplyr`, and other tools in the `tidyverse` ecosystem.
 
 <center>
-    <img src="https://github.com/rfordatascience/tidytuesday/blob/master/static/tt_logo.png?raw=true" alt="drawing" width="500"/>
+    <img src="https://github.com/rfordatascience/tidytuesday/blob/master/static/tt_logo.png?raw=true" alt="drawing" width="450"/>
     <figcaption>
     <a href="https://twitter.com/search?q=%23TidyTuesday&src=hashtag_click">#TidyTuesday on <i class="fab fa-twitter"></i></a>
     </figcaption>
@@ -254,7 +311,7 @@ As already said, `ggplot2` can be intimidating at first. However, with some prac
     </div>
 </div>
 
-<span class="gradient-underline">Most people participating to the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!</span>
+<span class="gradient-underline">Most people participating in the TidyTuesday challenges share their code on Github. It is a great way to learn more advanced techniques!</span>
 
 ---
 
@@ -361,7 +418,7 @@ class: inverse, center, middle
 
 # Two variables graphics
 
-There are several types of charts with two variables. Here are the three types mostly used.
+There are several types of charts with two variables. Here are the most used.
 
 | **Graphic type** | **Geom**         | **Description**                                               |
 | ---------------- | ---------------- | ------------------------------------------------------------- |
@@ -548,20 +605,9 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 
 ---
 
-# Working with size
-
-In the same manner, the size of the dots can be based on a particular variable.
-
-```{r, fig.height = 4}
-ggplot(mpg, aes(x = displ, y = hwy)) +
-  geom_point(aes(size = cyl)) #<<
-```
-
----
-
 # Setting colors manually
 
-By default, `ggplot2` will use a default color palette.
+By default, `ggplot2` uses a default color palette.
 
 ```{r, fig.height = 3.5}
 p <- ggplot(mpg, aes(x = displ, y = hwy)) +
@@ -590,6 +636,137 @@ p +
 ```
 
 `r chunk_reveal(chunk_name = "manual_colors1", title = "# Setting colors manually \n We can also create our own palette of colors using *scale_color_manual()*.")`
+
+---
+background-image: url(https://github.com/EmilHvitfeldt/paletteer/blob/master/man/figures/logo.png?raw=true)
+background-size: 90px
+background-position: 90% 8%
+
+# Color palettes for ggplot2
+
+`paletteer` is a comprehensive collection of color palettes in R created by [@Emil_Hvitfeldt](https://twitter.com/Emil_Hvitfeldt). I have made a [paletteer gallery](https://github.com/PMassicotte/paletteer_gallery) to help me navigate all the palettes.
+
+.pull-left[
+
+<small>
+```{r paletteer, eval=FALSE}
+library(paletteer) #<<
+
+ggplot(
+  data = sw,
+  mapping = aes(
+    x = height,
+    y = forcats::fct_reorder(name, height),
+    fill = height #<<
+  )
+) +
+  geom_col() +
+  scale_fill_paletteer_c("ggthemes::Red-Gold") #<<
+```
+</small>
+]
+
+.pull-right[
+```{r ref.label="paletteer", echo=FALSE}
+
+```
+]
+
+---
+
+# Types of color scales
+
+.gradient-underline[Attention to the type of color scale that is mapped to your data.]
+
+--
+
+- Use `scale_color_*()` of `scale_colour_*()` for the .gradient-underline[color] of the geom.
+
+--
+
+- Use `scale_fill_*()` for the .gradient-underline[fill color] of the geom.
+
+--
+
+.pull-left[
+
+<br>
+
+```{r color-vs-fill, eval=FALSE}
+ggplot(
+  data = mpg,
+  mapping = aes(x = class)
+) +
+  geom_bar(
+    size = 2,
+    aes(fill = fl, color = class) #<<
+  )
+```
+]
+
+.pull-right[
+
+```{r, echo=FALSE, ref.label="color-vs-fill", out.height="80%"}
+
+```
+]
+
+---
+
+# Working with size
+
+As we did for the colors, the size of the geom (ex.: dots) can be based on a particular variable.
+
+```{r, fig.height = 3.5}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(size = cyl)) #<<
+```
+
+---
+
+# Continuous vs discrete mapping
+
+.gradient-underline[Pay attention to the type of data you are mapping to a color or shape scale.]
+
+**If the mapped variable is .gradient-underline[continuous], the generated guide on the legend will be also .gradient-underline[continuous].**
+
+.pull-left[
+<br>
+```{r continuous-mapping, eval=FALSE}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(color = year)) #<<
+```
+]
+
+.pull-right[
+
+```{r, echo=FALSE, ref.label="continuous-mapping", out.height="100%"}
+
+```
+]
+
+---
+
+# Continuous vs discrete mapping
+
+.gradient-underline[Pay attention to the type of data you are mapping to a color or shape scale.]
+
+**If the mapped variable is .gradient-underline[discrete], the generated guide on the legend will be also .gradient-underline[discrete].**
+
+.pull-left[
+<br>
+```{r discrete-mapping, eval=FALSE}
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(color = factor(year))) #<<
+```
+]
+
+.pull-right[
+
+```{r, echo=FALSE, ref.label="discrete-mapping", out.height="100%"}
+
+```
+]
 
 ---
 
@@ -710,6 +887,17 @@ ggplot(
 
 ---
 
+class: inverse, center, middle
+
+# Saving your graphics
+
+<br>
+
+.pull-left[`r fontawesome::fa("file-image", fill = "#9EADBD", height = 250)`]
+.pull-right[`r fontawesome::fa("file-pdf", fill = "#C39AAC", height = 250)`]
+
+---
+
 # Saving your graphics
 
 Saving `ggplot2` graphics is done with the `ggsave()` function.
@@ -777,6 +965,30 @@ class: inverse, center, middle
 > Themes are a powerful way to customize the non-data components of your plots: i.e. titles, labels, fonts, background, gridlines, and legends.
 
 Many components can be changed using the `theme()` function. Today we are going to see just a few of them, but feel free to have a look at `?theme` to have more information.
+
+--
+
+`theme()` can be used to modify:
+
+--
+
+- The background aesthetics (color, grid, etc.).
+
+--
+
+- Axis titles and ticks aesthetics.
+
+--
+
+- Legend titles and positions.
+
+--
+
+- Plot titles (title, subtitle, caption, etc.).
+
+--
+
+- Plot margins.
 
 ---
 
@@ -863,7 +1075,7 @@ class: inverse, center, middle
 
 # Combining plots
 
-It is often useful to combine plots and many R packages can do it. Here we are going to have a quick overview of the `patchwork` package. The package is not part of base R so it needs to be installed and loaded before you can use it.
+There are many R packages that cab be used to combine plots.  Here we are going to have a quick overview of the `patchwork` package. The package is not part of base R so it needs to be installed and loaded before you can use it.
 
 ```{r, eval = FALSE}
 install.packages("patchwork")
@@ -911,7 +1123,7 @@ The data description is as follows:
 
 ---
 
-# Lets make a plot
+# Let's make a plot
 
 This graph shows the top 10 countries with the highest average quantity of pure alcohol consumed.
 
@@ -944,7 +1156,7 @@ p1
 
 ---
 
-# Lets make another plot
+# Let's make another plot
 
 This graph shows the type of servings for the top 10 countries with the highest average quantity of pure alcohol consumed.
 
@@ -1001,11 +1213,14 @@ p1 / p2
 # Adding labels
 
 .pull-left[
-It is often necessary to identify each panel (graph) with a letter. This can be achieved with the `plot_annotation()`.
+It is often interesting to add a title and necessary to identify each panel (graph) with a letter. This can be achieved with the `plot_annotation()`.
 
 ```{r, plot-annotation1, eval=FALSE}
 p1 / p2 +
-  plot_annotation(tag_levels = "A") #<<
+  plot_annotation(
+    tag_levels = "A", #<<
+    title = "World alcohol consumption" #<<
+  )
 ```
 ]
 
