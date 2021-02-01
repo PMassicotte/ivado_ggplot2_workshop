@@ -83,6 +83,8 @@ class: title-slide, center, bottom
 
 ![](https://ivado.ca/wp-content/themes/ivadooo/assets/svg/siteLogo.svg)
 
+February 4, 2021 (updated: `r Sys.Date()`)
+
 ## `r rmarkdown::metadata$author`
 
 ---
@@ -106,6 +108,20 @@ class: title-slide, center, bottom
 <i class="fab fa-twitter"></i> @philmassicotte
 
 </p>
+
+---
+
+class: inverse, center, middle
+
+# Ateliers gestion et archivage des données
+
+<center>
+<figure>
+  <img src="img/qo.png" width="400">
+</figure>
+</center>
+
+### 18, 22 et 25 mars 2021
 
 ---
 
