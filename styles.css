@@ -193,6 +193,19 @@ a:hover {
   color: #FFFFFF;
 }
 
+.inverse-two h1 {
+  font-family: 'Paytone One', sans-serif;
+  font-size: 3em;
+  word-wrap: break-word;
+  font-weight: 400;
+  margin-bottom: -10px !important;
+  color: #3c3c3c;
+}
+
+.inverse-two {
+  background-color: #D8E2DC;
+}
+
 blockquote p {
   color: #577590;
   font-family: 'Kreon', serif;
@@ -218,4 +231,8 @@ blockquote {
     float: right;
     padding-top: 1em;
     margin: -5em;
+}
+
+.remark-slide thead, .remark-slide tfoot, .remark-slide tr:nth-child(even) {
+    background: #d8e2dc;
 }

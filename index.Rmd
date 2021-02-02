@@ -111,15 +111,18 @@ February 4, 2021 (updated: `r Sys.Date()`)
 
 ---
 
-class: inverse, center, middle
+class: inverse-two, center, middle
 
 # Ateliers gestion et archivage des données
 
+<br>
 <center>
 <figure>
   <img src="img/qo.png" width="400">
 </figure>
 </center>
+
+<br>
 
 ### 18, 22 et 25 mars 2021
 
@@ -160,7 +163,8 @@ class: inverse, center, middle
 
 --
 
-- Important aspect of data sciences -> Communicate information clearly and efficiently to the community.
+- Important aspect of data sciences
+    - <span class="gradient-underline">Communicate information clearly and efficiently to the community.</span>
 
 --
 
@@ -172,14 +176,14 @@ class: inverse, center, middle
 
 --
 
-- Bad graphics can be a reason for paper rejection!
-    * <span class="gradient-underline">Readers should rapidly understand the message you are trying to convey.</span>
+- Bad graphics can be a reason for paper rejection.
+    - <span class="gradient-underline">Readers should rapidly understand the message you are trying to convey.</span>
 
 --
 
 - A picture is worth a thousand words.
-    * <span class="gradient-underline">Always, always, always plot your data!</span>
-    * When possible, replace tables with more compelling figures.
+    - <span class="gradient-underline">Always, always, always plot your data!</span>
+    - When possible, replace tables with more compelling figures.
 
 ---
 
@@ -277,7 +281,9 @@ library(ggplot2)
 <center>
 <figure>
   <img src="https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/r_first_then.png?raw=true" height="500">
-<figcaption>Artwork by <a href="https://twitter.com/allison_horst?s=20">@allison_horst</a></figcaption>
+    <figcaption>
+    Artwork by <a href="https://twitter.com/allison_horst?s=20">@allison_horst</a>
+    </figcaption>
 </figure>
 </center>
 ]
@@ -374,7 +380,7 @@ A `ggplot2` plot is built layer by layer by using the `+` operator.
 
 # The geoms 
 
-`geoms` is the abbreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with `geom_`.
+`geoms` is the abbreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with the `geom_` prefix.
 
 <small>
 ```{r, echo = FALSE}
@@ -530,6 +536,8 @@ ggplot(
 ```
 </small>
 ]
+
+--
 
 .pull-right[
 ```{r ref.label="barplot4", echo=FALSE}
@@ -1000,7 +1008,7 @@ Many components can be changed using the `theme()` function. Today we are going 
 
 --
 
-- Plot titles (title, subtitle, caption, etc.).
+- Aesthetics of plot titles (title, subtitle, caption, etc.).
 
 --
 

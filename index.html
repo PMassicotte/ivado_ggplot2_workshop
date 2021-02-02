@@ -47,7 +47,7 @@ class: title-slide, center, bottom
 
 ![](https://ivado.ca/wp-content/themes/ivadooo/assets/svg/siteLogo.svg)
 
-February 4, 2021 (updated: 2021-02-01)
+February 4, 2021 (updated: 2021-02-02)
 
 ## Philippe Massicotte
 
@@ -75,15 +75,18 @@ February 4, 2021 (updated: 2021-02-01)
 
 ---
 
-class: inverse, center, middle
+class: inverse-two, center, middle
 
 # Ateliers gestion et archivage des données
 
+&lt;br&gt;
 &lt;center&gt;
 &lt;figure&gt;
   &lt;img src="img/qo.png" width="400"&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
+
+&lt;br&gt;
 
 ### 18, 22 et 25 mars 2021
 
@@ -124,7 +127,8 @@ class: inverse, center, middle
 
 --
 
-- Important aspect of data sciences -&gt; Communicate information clearly and efficiently to the community.
+- Important aspect of data sciences
+    - &lt;span class="gradient-underline"&gt;Communicate information clearly and efficiently to the community.&lt;/span&gt;
 
 --
 
@@ -136,14 +140,14 @@ class: inverse, center, middle
 
 --
 
-- Bad graphics can be a reason for paper rejection!
-    * &lt;span class="gradient-underline"&gt;Readers should rapidly understand the message you are trying to convey.&lt;/span&gt;
+- Bad graphics can be a reason for paper rejection.
+    - &lt;span class="gradient-underline"&gt;Readers should rapidly understand the message you are trying to convey.&lt;/span&gt;
 
 --
 
 - A picture is worth a thousand words.
-    * &lt;span class="gradient-underline"&gt;Always, always, always plot your data!&lt;/span&gt;
-    * When possible, replace tables with more compelling figures.
+    - &lt;span class="gradient-underline"&gt;Always, always, always plot your data!&lt;/span&gt;
+    - When possible, replace tables with more compelling figures.
 
 ---
 
@@ -219,7 +223,9 @@ library(ggplot2)
 &lt;center&gt;
 &lt;figure&gt;
   &lt;img src="https://github.com/allisonhorst/stats-illustrations/blob/master/rstats-artwork/r_first_then.png?raw=true" height="500"&gt;
-&lt;figcaption&gt;Artwork by &lt;a href="https://twitter.com/allison_horst?s=20"&gt;@allison_horst&lt;/a&gt;&lt;/figcaption&gt;
+    &lt;figcaption&gt;
+    Artwork by &lt;a href="https://twitter.com/allison_horst?s=20"&gt;@allison_horst&lt;/a&gt;
+    &lt;/figcaption&gt;
 &lt;/figure&gt;
 &lt;/center&gt;
 ]
@@ -332,7 +338,7 @@ A `ggplot2` plot is built layer by layer by using the `+` operator.
 
 # The geoms 
 
-`geoms` is the abbreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with `geom_`.
+`geoms` is the abbreviation for *geometric objects* which are used to specify which type of graphic you want to produce (boxplot, barplot, scatter, ...). All `ggplot2` geoms start with the `geom_` prefix.
 
 &lt;small&gt;
 
@@ -616,6 +622,8 @@ ggplot(
 ```
 &lt;/small&gt;
 ]
+
+--
 
 .pull-right[
 &lt;img src="index_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
@@ -1693,7 +1701,7 @@ Many components can be changed using the `theme()` function. Today we are going 
 
 --
 
-- Plot titles (title, subtitle, caption, etc.).
+- Aesthetics of plot titles (title, subtitle, caption, etc.).
 
 --
 
