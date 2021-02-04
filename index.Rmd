@@ -95,17 +95,19 @@ February 4, 2021 (updated: `r Sys.Date()`)
 
 <p align="left">
 
-<b>Research assistant at Takuvik (remote sensing, modeling, data science)</b><br>
+<b>Research assistant at Takuvik (Laval University)</b><br>
 
-- Using R more than 10 years<br>
-- Author of 3 packages on CRAN<br>
-- R blog: www.pmassicotte.com<br>
+- Remote sensing, modelling, data science, data visualization<br>
 
 <br>
 
-<i class="fab fa-github"></i> https://github.com/PMassicotte <br>
-<i class="far fa-envelope"></i> philippe.massicotte@takuvik.ulaval.ca <br>
-<i class="fab fa-twitter"></i> @philmassicotte
+`r fontawesome::fa("github", fill = "#3C3C3C", height = 20)` <small>https://github.com/PMassicotte</small> <br>
+
+`r fontawesome::fa("envelope", fill = "#3C3C3C", height = 20)` <small>philippe.massicotte@takuvik.ulaval.ca</small> <br>
+
+`r fontawesome::fa("twitter", fill = "#3C3C3C", height = 20)` <small>@philmassicotte</small> <br>
+
+`r fontawesome::fa("blog", fill = "#3C3C3C", height = 20)` <small>www.pmassicotte.com</small>
 
 </p>
 
@@ -133,18 +135,19 @@ class: inverse-two, center, middle
 - What is data visualization?
 
 - `ggplot2` basic plots
-    * Histograms and bar plots
-    * Points and lines plots
-    * Boxplots
+    - Histograms and bar plots
+    - Points and lines plots
+    - Boxplots
 
 - `ggplot2` aesthetics and appearance
-    * Color, size
-    * Axes and titles
-    * Faceting
-
-- Overview of the `theme()` function
+    - Color, size
+    - Axes and titles
+    - Faceting (small multiples)
+    - Overview of the `theme()` function
 
 - Combining plots with `patchwork`
+
+- Exporting `ggplot2` graphics
 
 ---
 
@@ -169,10 +172,7 @@ class: inverse-two, center, middle
 --
 
 - Powerful tool to discovers patterns in the data.
-
---
-
-- It makes complex data more accessible -> **reveal data**.
+    - It makes complex data more accessible: <span class="gradient-underline">reveal the data</span>.
 
 --
 
@@ -189,7 +189,11 @@ class: inverse-two, center, middle
 
 # The Anscombe data
 
-.gradient-underline[These four datasets have the same statistical properties (*mean*, *variance*, *correlation*). However, they look quite different.]
+--
+
+.gradient-underline[These four datasets have the same statistical properties (*mean*, *variance*, *correlation*).] However, they look quite different.
+
+--
 
 ```{r, echo = FALSE}
 anscombe %>%
@@ -274,7 +278,7 @@ library(ggplot2)
 # ggplot2
 
 .column-left[
-`ggplot2` is a very powerful tool. The learning curve can be difficult, but the time investment will eventually pay off.
+`ggplot2` is a very powerful tool. The learning curve can be difficult, but .gradient-underline[the time investment will eventually pay off.]
 ]
 
 .column-right[
@@ -585,6 +589,37 @@ ggplot(
 
 ---
 
+# Boxplot
+
+As we did with the StarWars data, we can reorder the `class` variable based on the `cty` variable to make the graphic more appealing with `forcats::fct_reorder()`.
+
+--
+
+.pull-left[
+<small>
+```{r boxplot-ordered, eval=FALSE}
+ggplot(
+  data = mpg,
+  mapping = aes(
+    x = forcats::fct_reorder(class, cty), #<< 
+    y = cty
+  )
+) +
+  geom_boxplot()
+```
+</small>
+]
+
+--
+
+.pull-right[
+```{r ref.label="boxplot-ordered", echo=FALSE}
+
+```
+]
+
+---
+
 class: inverse, center, middle
 
 # Geom aesthetics
@@ -609,7 +644,7 @@ mpg %>%
 
 # Working with colors
 
-If we want to set a specific color, we have to set it outside the aesthetic: `geom_point(color = "orange")`.
+If we want to set a specific color .gradient-underline[for all the points], we have to set it outside the aesthetic: `geom_point(color = "orange")`.
 
 ```{r, fig.height = 3.5}
 ggplot(mpg, aes(x = displ, y = hwy)) +
@@ -620,7 +655,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 
 # Working with colors
 
-If we want to set a color based on a variable, we have to use the aesthetic: `aes(colour = variable)`.
+If we want to set a color .gradient-underline[based on a variable], we have to use the aesthetic: `aes(colour = variable)`.
 
 ```{r, fig.height = 3.5}
 ggplot(mpg, aes(x = displ, y = hwy)) +
@@ -634,16 +669,15 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 By default, `ggplot2` uses a default color palette.
 
 ```{r, fig.height = 3.5}
-p <- ggplot(mpg, aes(x = displ, y = hwy)) +
+ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point(aes(color = drv))
-
-p
 ```
 
 ---
 
 ```{r manual_colors1, include = FALSE}
-p +
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point(aes(color = drv)) +
   scale_color_manual(
     breaks = c("4", "f", "r"),
     values = c(
@@ -667,6 +701,8 @@ background-size: 90px
 background-position: 90% 8%
 
 # Color palettes for ggplot2
+
+There are many different R packages that provide color palettes.
 
 `paletteer` is a comprehensive collection of color palettes in R created by [@Emil_Hvitfeldt](https://twitter.com/Emil_Hvitfeldt). I have made a [paletteer gallery](https://github.com/PMassicotte/paletteer_gallery) to help me navigate all the palettes.
 
@@ -722,7 +758,7 @@ ggplot(
   mapping = aes(x = class)
 ) +
   geom_bar(
-    size = 2,
+    size = 1,
     aes(fill = fl, color = class) #<<
   )
 ```
@@ -752,7 +788,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 
 .gradient-underline[Pay attention to the type of data you are mapping to a color or shape scale.]
 
-**If the mapped variable is .gradient-underline[continuous], the generated guide on the legend will be also .gradient-underline[continuous].**
+If the mapped variable is .gradient-underline[continuous], the generated guide on the legend will be also .gradient-underline[continuous].
 
 .pull-left[
 <br>
@@ -775,7 +811,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 
 .gradient-underline[Pay attention to the type of data you are mapping to a color or shape scale.]
 
-**If the mapped variable is .gradient-underline[discrete], the generated guide on the legend will be also .gradient-underline[discrete].**
+If the mapped variable is .gradient-underline[discrete], the generated guide on the legend will be also .gradient-underline[discrete]. You can convert a continuous variable into a factor with the `factor()` function.
 
 .pull-left[
 <br>
@@ -913,78 +949,11 @@ ggplot(
 
 class: inverse, center, middle
 
-# Saving your graphics
-
-<br>
-
-.pull-left[`r fontawesome::fa("file-image", fill = "#9EADBD", height = 250)`]
-.pull-right[`r fontawesome::fa("file-pdf", fill = "#C39AAC", height = 250)`]
-
----
-
-# Saving your graphics
-
-Saving `ggplot2` graphics is done with the `ggsave()` function.
-
-```{r, eval = FALSE}
-p <- ggplot(mpg, aes(x = displ, y = cty)) +
-  geom_point()
-```
-
-**Vector formats**
-
-```{r, eval=FALSE}
-ggsave("path/to/myfile.pdf", p, width = 5.97, height = 4.79)
-ggsave("path/to/myfile.eps", p, width = 5.97, height = 4.79)
-ggsave("path/to/myfile.ps", p, width = 5.97, height = 4.79)
-```
-
-**Raster formats**
-
-```{r, eval=FALSE}
-ggsave("path/to/myfile.jpg", p, width = 5.97, height = 4.79, dpi = 300)
-ggsave("path/to/myfile.tiff", p, width = 5.97, height = 4.79, dpi = 300)
-ggsave("path/to/myfile.png", p, width = 5.97, height = 4.79, dpi = 300)
-```
-
----
-
-# Vector vs raster graphics
-
-.pull-left[
-> The main difference between vector and raster graphics is that raster graphics are composed of pixels, while vector graphics are composed of paths.
-.left[
-<credit>
-    Source: <a href="https://www.geeksforgeeks.org/vector-vs-raster-graphics/">Vector vs Raster Graphics</a>
-</credit>
-]
-
-- Scientific journals often require 300 DPI raster or vector graphics.
-
-- .gradient-underline[Attention: vector graphics can produce very large files for certain types of graphics (ex.: 3D plots).]
-
-]
-
-.pull-right[
-<center>
-<figure>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/VectorBitmapExample.svg" height="400">
-  <figcaption>
-    Source: Wikipedia 
-</figcaption>
-</figure>
-</center>
-]
-
----
-
-class: inverse, center, middle
-
 # Using ggplot2 themes
 
 ---
 
-# `ggplot2` themes
+# ggplot2 themes
 
 > Themes are a powerful way to customize the non-data components of your plots: i.e. titles, labels, fonts, background, gridlines, and legends.
 
@@ -1055,6 +1024,24 @@ p +
 
 ---
 
+# ggplot2 themes
+
+There are many components that can be modified with the `theme()` function. Most of these components are modified using the `element_*()` functions.
+
+--
+
+- `element_rect()`: for borders and backgrounds
+
+--
+
+- `element_line()`: for lines elements
+
+--
+
+- `element_text()`: for text
+
+---
+
 ```{r, grid, include = FALSE}
 p +
   theme(
@@ -1099,7 +1086,7 @@ class: inverse, center, middle
 
 # Combining plots
 
-There are many R packages that cab be used to combine plots.  Here we are going to have a quick overview of the `patchwork` package. The package is not part of base R so it needs to be installed and loaded before you can use it.
+There are many R packages that can be used to combine plots.  Here we are going to have a quick overview of the `patchwork` package. The package is not part of base R so it needs to be installed and loaded before you can use it.
 
 ```{r, eval = FALSE}
 install.packages("patchwork")
@@ -1212,6 +1199,8 @@ p2
 
 # Combining horizontally
 
+Combining horizontally is done using the `+` operator.
+
 ```{r, fig.width = 10}
 p1 + p2
 ```
@@ -1219,6 +1208,8 @@ p1 + p2
 ---
 
 # Combining vertically
+
+Combining vertically is done using the `-` operator.
 
 ```{r, fig.width = 7}
 p1 / p2
@@ -1251,6 +1242,73 @@ p1 / p2 +
 .pull-right[
 ```{r, plot-annotation2, fig.height=6, eval=TRUE, ref.label="plot-annotation1", echo=FALSE}
 ```
+]
+
+---
+
+class: inverse, center, middle
+
+# Saving your graphics
+
+<br>
+
+.pull-left[`r fontawesome::fa("file-image", fill = "#9EADBD", height = 250)`]
+.pull-right[`r fontawesome::fa("file-pdf", fill = "#C39AAC", height = 250)`]
+
+---
+
+# Saving your graphics
+
+Saving `ggplot2` graphics is done with the `ggsave()` function.
+
+```{r, eval = FALSE}
+p <- ggplot(mpg, aes(x = displ, y = cty)) +
+  geom_point()
+```
+
+**Vector formats**
+
+```{r, eval=FALSE}
+ggsave("path/to/myfile.pdf", p, width = 5.97, height = 4.79)
+ggsave("path/to/myfile.eps", p, width = 5.97, height = 4.79)
+ggsave("path/to/myfile.ps", p, width = 5.97, height = 4.79)
+```
+
+**Raster formats**
+
+```{r, eval=FALSE}
+ggsave("path/to/myfile.jpg", p, width = 5.97, height = 4.79, dpi = 300)
+ggsave("path/to/myfile.tiff", p, width = 5.97, height = 4.79, dpi = 300)
+ggsave("path/to/myfile.png", p, width = 5.97, height = 4.79, dpi = 300)
+```
+
+---
+
+# Vector vs raster graphics
+
+.pull-left[
+> The main difference between vector and raster graphics is that raster graphics are composed of pixels, while vector graphics are composed of paths.
+.left[
+<credit>
+    Source: <a href="https://www.geeksforgeeks.org/vector-vs-raster-graphics/">Vector vs Raster Graphics</a>
+</credit>
+]
+
+- Scientific journals often require at least 300 DPI raster or vector graphics.
+
+- .gradient-underline[Attention: vector graphics can produce very large files for certain types of graphics (ex.: 3D plots).]
+
+]
+
+.pull-right[
+<center>
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/VectorBitmapExample.svg" height="400">
+  <figcaption>
+    Source: Wikipedia 
+</figcaption>
+</figure>
+</center>
 ]
 
 ---
