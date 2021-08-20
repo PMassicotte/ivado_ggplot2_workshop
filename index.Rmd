@@ -101,13 +101,13 @@ February 4, 2021 (updated: `r Sys.Date()`)
 
 <br>
 
-`r fontawesome::fa("github", fill = "#3C3C3C", height = 20)` <small>https://github.com/PMassicotte</small> <br>
+`r fontawesome::fa("github", fill = "#3C3C3C", height = "20px")` <small>https://github.com/PMassicotte</small> <br>
 
-`r fontawesome::fa("envelope", fill = "#3C3C3C", height = 20)` <small>philippe.massicotte@takuvik.ulaval.ca</small> <br>
+`r fontawesome::fa("envelope", fill = "#3C3C3C", height = "20px")` <small>philippe.massicotte@takuvik.ulaval.ca</small> <br>
 
-`r fontawesome::fa("twitter", fill = "#3C3C3C", height = 20)` <small>@philmassicotte</small> <br>
+`r fontawesome::fa("twitter", fill = "#3C3C3C", height = "20px")` <small>@philmassicotte</small> <br>
 
-`r fontawesome::fa("blog", fill = "#3C3C3C", height = 20)` <small>www.pmassicotte.com</small>
+`r fontawesome::fa("blog", fill = "#3C3C3C", height = "20px")` <small>www.pmassicotte.com</small>
 
 </p>
 
@@ -1252,8 +1252,8 @@ class: inverse, center, middle
 
 <br>
 
-.pull-left[`r fontawesome::fa("file-image", fill = "#9EADBD", height = 250)`]
-.pull-right[`r fontawesome::fa("file-pdf", fill = "#C39AAC", height = 250)`]
+.pull-left[`r fontawesome::fa("file-image", fill = "#9EADBD", height = "250px")`]
+.pull-right[`r fontawesome::fa("file-pdf", fill = "#C39AAC", height = "250px")`]
 
 ---
 
